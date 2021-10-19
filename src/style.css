@@ -1,0 +1,135 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');*/
+/*@import url('assets/Roboto/Roboto-Regular.ttf');*/
+@font-face {
+  font-family: "Roboto";
+  src: url("assets/Roboto/Roboto-Regular.ttf") format("truetype")
+}
+* {
+  font-family: 'Roboto', sans-serif;
+}
+h1, p {
+  font-family: Roboto;
+}
+body{
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.title {
+  position: absolute;
+  margin: 0 auto;
+  top: 5vh;
+  background-color: #444444;
+  font-size: 45px;
+  color: white;
+  border-radius: 15px;
+  padding: 6px 12px 6px 12px;
+  text-transform: uppercase;
+  z-index: 9999999;
+  overflow: hidden;
+}
+#root{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.category_1{
+  background-color: #b32f4a
+}
+
+.category_2{
+  background-color: #d7313e
+}
+
+.category_3{
+  background-color: #f97041
+}
+
+.category_4{
+  background-color: #faa247
+}
+.category_5{
+  background-color: #acd6a9
+}
+
+
+.window{
+  width: 300px;
+  background: red;
+  position: fixed;
+  right: 0;
+  top: 0;
+  font-family: sans-serif;
+}
+.window > div{
+  padding: 10px;
+}
+
+
+circle.circle {
+  transform: translate(-80%, -316%);
+}
+#boroughs-map {
+  width: 100vw;
+  height: 100vh;
+}
+.city {
+  position: relative;
+}
+.city:after {
+  position: absolute;
+  right: 0;
+  content: 'Город';
+  color: black;
+  font-size: 40px;
+  z-index: 1000;
+}
+
+.popup {
+  width: 281px;
+  background-color: white;
+  color: #333;
+  box-shadow: 0 3px 14px rgb(0 0 0 / 40%);
+  padding: 14px;
+  border-radius: 13px;
+  position: absolute;
+  top: 10vh;
+  left: 10vw;
+  display: flex;
+  flex-direction: column;
+}
+.marker {
+  width: 70px;
+  border-radius: 5px;
+  font-size: 24px;
+  color: white;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 15px;
+}
+.marker_aqi {
+  font-size: 11px;
+}
+.marker_header {
+  display: flex;
+  /*flex-direction: column;*/
+}
+.marker_header__title {
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: bold;
+display: flex;
+  flex-direction: column;
+}
+
+.marker_header_time {
+  font-size: 12px;
+}
+.popup_body {
+  margin-top: 17px;
+  display: flex;
+  /*flex-direction: column;*/
+}
