@@ -4,6 +4,12 @@ const app = express();
 var cors = require("cors");
 const port = 3001;
 
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//   })
+// );
+app.use(cors())
 
 app.get("/getJson", (req, res) => {
   const { lan, lat } = req.query;
