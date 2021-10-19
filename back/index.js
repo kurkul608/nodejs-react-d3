@@ -6,10 +6,9 @@ const port = 3001;
 
 app.use(
   cors({
-    origin: "http://84.201.170.215:3000",
+    origin: "http://localhost:3000",
   })
 );
-// app.use(cors())
 
 app.get("/getJson", (req, res) => {
   const { lan, lat } = req.query;
