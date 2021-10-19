@@ -51,7 +51,6 @@ const Map = (props) => {
     projRef.current.translate([width / 2, height / 2]);
 
     const path = d3.geoPath().projection(projRef.current);
-    console.log(data.features);
     if (data) {
       renderChart(data.features, path);
     }
@@ -62,7 +61,6 @@ const Map = (props) => {
   }, []);
 
   const renderChart = (data, path) => {
-    console.log("inside");
     let g = d3
       .select(svgRef.current)
       .selectAll("path")
@@ -125,6 +123,16 @@ const Map = (props) => {
       })
       .attr("data-lan", (d) => {
         return d["Долгота"];
+      })
+      .attr("data-city", (d) => {
+        return d["Тип города"] + ". " + d["Город"];
+      })
+      .on("click", (e) => {
+        props.handleFetch({
+          lat: e.target.dataset.lat,
+          lan: e.target.dataset.lan,
+          city: e.target.dataset.city,
+        });
       })
       .style("fill", (d) => "#00000")
       .style("opacity", 0)

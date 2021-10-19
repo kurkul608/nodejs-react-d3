@@ -1,84 +1,79 @@
 import React from "react";
 import moment from "moment";
 
-const category_0 = "#ff000000";
-const category_1 = "#b32f4a";
-const category_2 = `#d7313e`;
-const category_3 = `#f97041`;
-const category_4 = `#faa247`;
-const category_5 = `#acd6a9`;
+export const Popup = ({ info, selectedCity }) => {
+  const events = {
+    otherDang: "Прочие опасности",
+    wind: "Ветер",
+    fireDang: "Пожарная опасность",
+  };
 
-function paramsColors(num) {
-  if (num >= 0 && num <= 50) {
-    return category_5;
-  }
-
-  if (num >= 51 && num <= 70) {
-    return category_4;
-  }
-
-  if (num >= 71 && num <= 90) {
-    return category_3;
-  }
-
-  if (num >= 91 && num <= 120) {
-    return category_2;
-  }
-
-  if (num >= 121) {
-    return category_1;
-  }
-}
-function paramsName(num) {
-  if (num >= 0 && num <= 50) {
-    return "Хороший уровень";
-  }
-
-  if (num >= 51 && num <= 70) {
-    return "Умеренный уровень";
-  }
-
-  if (num >= 71 && num <= 90) {
-    return "Вредный уровень для чувствительных групп";
-  }
-
-  if (num >= 91 && num <= 120) {
-    return "Вредный уровень";
-  }
-
-  if (num >= 121) {
-    return "Очень вредный уровень";
-  }
-}
-export const Popup = ({ info }) => {
-  let value;
-  let date;
-  let place;
-  if (info) {
-    const help = JSON.parse(info);
-    value = help.pollutants[help.pollutants.length - 1].value;
-    const newDate = moment(help.pollutants[help.pollutants.length - 1].time);
-    date = newDate.format("DD-MM-YYYY, hh:mm");
-    place = help.cityName;
-  }
+  const getDateFromUnix = ({ un }) => {
+    const date = moment.unix(un);
+    return date.format("DD.MM.yyyy");
+  };
+  const getTimeFromUnix = ({ un }) => {
+    const date = moment.unix(un);
+    return date.format("HH:mm:ss");
+  };
+  const getAlerts = (arr) => {
+    return arr.map((al) => {
+      if (al.event === events.otherDang) {
+        return { name: "Прочие опасности", description: al.description };
+      } else if (al.event === events.wind) {
+        return { name: "Ветер", description: al.description };
+      } else if (al.event === events.fireDang) {
+        return { name: "Пожарная опасность", description: al.description };
+      }
+    });
+  };
 
   return (
     <>
       {info ? (
         <div className="popup">
           <div className="marker_header">
-            <div className="marker" style={{ background: paramsColors(value) }}>
-              {value}
-              <div className="marker_aqi">AQI PM2.5</div>
+            <p className={"title_city"}>
+              Место измерения:{" "}
+              <span className={"title_city_name"}>{selectedCity}</span>
+            </p>
+            <div className="marker">
+              Температура: {info.data.current.temp} &#xb0;С
+              <div className="marker_aqi">
+                Ощущается как: {info.data.current.feels_like} &#xb0;С
+              </div>
             </div>
             <div className="marker_header__title">
-              <div className="">{paramsName(value)}</div>
-              <div className="marker_header_time">Дата измерения</div>
-              <div className="marker_header_time">{date}</div>
+              <div className=""></div>
+              <div className="marker_header_time">
+                Дата измерения: {getDateFromUnix({ un: info.data.current.dt })}
+              </div>
+              <div className="marker_header_time">
+                Рассвет: {getTimeFromUnix({ un: info.data.current.sunrise })}
+              </div>
+              <div className="marker_header_time">
+                Закат: {getTimeFromUnix({ un: info.data.current.sunset })}
+              </div>
+              <div className="marker">Предупрждения:</div>
+              {info.data.alerts
+                ? getAlerts(info.data.alerts).map((el, index) =>
+                    el ? (
+                      <div key={index} className={"alerts_row"}>
+                        <div className={"marker_header_time"}>
+                          Тип предупреждения:{" "}
+                          <span style={{ fontWeight: "bold" }}>{el.name}</span>
+                          <div className={"marker_header_time"}>
+                            Описание:{" "}
+                            <span style={{ fontWeight: "bold" }}>
+                              {el.description}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ) : null
+                  )
+                : null}
             </div>
-          </div>
-          <div className="popup_body">
-            <div>Место, где произведено измерение - {place}</div>
           </div>
         </div>
       ) : null}

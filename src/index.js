@@ -15,6 +15,7 @@ function App() {
     air: "",
   });
   const [info, setInfo] = useState();
+  const [selectedCity, setSelectedCity] = useState("");
   const infoHandler = (data) => {
     setInfo(data);
   };
@@ -24,29 +25,48 @@ function App() {
 
   const mapRef = useRef();
 
+  const handleFetch = ({ lat, lan, city }) => {
+    const params = new URLSearchParams([
+      ["lan", lan],
+      ["lat", lat],
+    ]);
+    setSelectedCity(city);
+    fetch("http://localhost:3001/getJson?" + params, { method: "GET" })
+      .then((response) => response.json())
+      .then((json) => {
+        setTimeout(() => {
+          setLoading(false);
+          setInfo(json);
+        }, 0);
+      });
+  };
+  // console.log(info);
   // useEffect(() => {
-  //   if (loading) {
-  //     fetch("http://localhost:3001/getJson")
-  //       .then((response) => response.json())
-  //       .then((json) => {
-  //         setTimeout(() => {
-  //           setLoading(false);
-  //           pointsTodos(json);
-  //         }, 2000);
-  //       });
-  //   }
+  //   const params = new URLSearchParams([
+  //     ["lan", "222"],
+  //     ["lat", "222"],
+  //   ]);
+  //   fetch("http://localhost:3001/getJson?" + params, { method: "GET" })
+  //     .then((response) => response.json())
+  //     .then((json) => {
+  //       setTimeout(() => {
+  //         setLoading(false);
+  //         pointsTodos(json);
+  //       }, 2000);
+  //     });
   // }, []);
 
   return (
     <>
       {title.show ? <div className="title">{title.text}</div> : null}
 
-      <Popup info={info} />
+      <Popup info={info} selectedCity={selectedCity} />
       <div id="map" ref={mapRef}>
         <Map
           data={pointsLists}
           titleHandler={titleHandler}
           infoHandler={infoHandler}
+          handleFetch={handleFetch}
         />
       </div>
       {/*<div className="window">*/}
