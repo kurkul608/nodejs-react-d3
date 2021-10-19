@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  frontend_nginx:
+    image: frontend_nginx:latest
+    restart: always
+    build:
+      context: builds/front
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+
+    #    expose:
+    #      - 3000
+    volumes:
+      - ./client:/var/www/client:rw,cached
+
+  backend_nginx:
+    image: backend_nginx:latest
+    restart: always
+    build:
+      context: builds/back
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3001
+    #    expose:
+    #      - 5050
+    volumes:
+      - ./back:/var/www/back:rw,cached
+
