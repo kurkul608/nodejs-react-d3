@@ -31,7 +31,7 @@ function App() {
       ["lat", lat],
     ]);
     setSelectedCity(city);
-    fetch("http://localhost:3001/getJson?" + params, { method: "GET" })
+    fetch("http://84.201.170.215:3001/getJson?" + params, { method: "GET" })
       .then((response) => response.json())
       .then((json) => {
         setTimeout(() => {
