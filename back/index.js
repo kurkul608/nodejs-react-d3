@@ -6,7 +6,7 @@ const port = 3001;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
   })
 );
 
@@ -22,7 +22,10 @@ app.get("/getJson", (req, res) => {
       res.send({
         data: JSON.parse(body),
       });
-    });
+    }).catch(err => {
+      console.log(err)});
+
+    console.log('hello')
 });
 
 app.listen(port, () => {
